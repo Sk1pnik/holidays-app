@@ -56,7 +56,11 @@ public class SyncHolidays : IEndpoint
 
         await strategy.ExecuteAsync(async () =>
         {
-            savedHolidays = holidays.Select(MapToEntity).ToList(); // fresh entities on every retry
+            savedHolidays = holidays
+                .Where(h => h.Date.Year == request.Year)
+                .DistinctBy(h => new { h.Date, h.CountryCode, h.Name })
+                .Select(MapToEntity)
+                .ToList();
 
             await using var transaction = await dbContext.Database.BeginTransactionAsync(cancellationToken);
             try
