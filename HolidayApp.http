@@ -1,0 +1,122 @@
+@HolidayApp_HostAddress = http://localhost:5095
+
+### Sync US holidays for 2024
+POST {{HolidayApp_HostAddress}}/api/holidays/sync
+Content-Type: application/json
+
+{
+  "year": 2024,
+  "countryCode": "US"
+}
+
+###
+
+### Sync DE holidays for 2024
+POST {{HolidayApp_HostAddress}}/api/holidays/sync
+Content-Type: application/json
+
+{
+  "year": 2024,
+  "countryCode": "DE"
+}
+
+###
+
+### Sync GB holidays for 2024
+POST {{HolidayApp_HostAddress}}/api/holidays/sync
+Content-Type: application/json
+
+{
+  "year": 2024,
+  "countryCode": "GB"
+}
+
+###
+
+### Validation error — invalid country code
+POST {{HolidayApp_HostAddress}}/api/holidays/sync
+Content-Type: application/json
+
+{
+  "year": 2024,
+  "countryCode": "INVALID"
+}
+
+###
+
+### Validation error — year out of range
+POST {{HolidayApp_HostAddress}}/api/holidays/sync
+Content-Type: application/json
+
+{
+  "year": 1800,
+  "countryCode": "US"
+}
+
+###
+
+### Last 3 celebrated holidays for US
+GET {{HolidayApp_HostAddress}}/api/holidays/US/last-celebrated
+Accept: application/json
+
+###
+
+### Last 3 celebrated holidays for DE
+GET {{HolidayApp_HostAddress}}/api/holidays/DE/last-celebrated
+Accept: application/json
+
+###
+
+### Validation error — invalid country code
+GET {{HolidayApp_HostAddress}}/api/holidays/INVALID/last-celebrated
+Accept: application/json
+
+###
+
+### Non-weekend counts — multiple countries
+GET {{HolidayApp_HostAddress}}/api/holidays/non-weekend-count?year=2024&countryCodes=US&countryCodes=DE&countryCodes=GB
+Accept: application/json
+
+###
+
+### Non-weekend counts — single country
+GET {{HolidayApp_HostAddress}}/api/holidays/non-weekend-count?year=2024&countryCodes=PL
+Accept: application/json
+
+###
+
+### Validation error — no country codes
+GET {{HolidayApp_HostAddress}}/api/holidays/non-weekend-count?year=2024
+Accept: application/json
+
+###
+
+### Validation error — invalid year
+GET {{HolidayApp_HostAddress}}/api/holidays/non-weekend-count?year=1800&countryCodes=US
+Accept: application/json
+
+###
+
+### Common holidays — US and DE in 2024
+GET {{HolidayApp_HostAddress}}/api/holidays/common?year=2024&countryCode1=US&countryCode2=DE
+Accept: application/json
+
+###
+
+### Common holidays — GB and DE in 2024
+GET {{HolidayApp_HostAddress}}/api/holidays/common?year=2024&countryCode1=GB&countryCode2=DE
+Accept: application/json
+
+###
+
+### Validation error — same country codes
+GET {{HolidayApp_HostAddress}}/api/holidays/common?year=2024&countryCode1=US&countryCode2=US
+Accept: application/json
+
+###
+
+### Validation error — missing second country code
+GET {{HolidayApp_HostAddress}}/api/holidays/common?year=2024&countryCode1=US
+Accept: application/json
+
+###
